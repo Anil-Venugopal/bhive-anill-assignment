@@ -1,4 +1,4 @@
-export interface WrokSpace {
+export interface WorkSpace {
   // "id": "39ab7642-8de3-4e95-aa5d-34089bc67b90",
   id: string;
   // "name": "Platinum, Indiranagar",

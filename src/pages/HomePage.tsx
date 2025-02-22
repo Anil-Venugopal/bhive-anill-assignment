@@ -1,7 +1,10 @@
 import React from 'react';
+import { Box, Container } from '@mui/material';
 import Header from '../components/layout/Header';
-import { Box } from '@mui/material';
-
+import Hero from '../components/features/Hero';
+import Features from '../components/features/Features';
+import Spaces from '../components/spaces/Spaces';
+import Download from '../components/download/Download';
 
 const HomePage: React.FC = () => {
   return (
@@ -13,7 +16,12 @@ const HomePage: React.FC = () => {
             mt: { xs: '7.2rem', md: '9rem' },
           }}
         >
-          <h1>Bhive</h1>
+          <Hero />
+          <Container maxWidth="lg">
+            <Features />
+            <Spaces />
+            <Download />
+          </Container>
         </Box>
       </main>
     </>
