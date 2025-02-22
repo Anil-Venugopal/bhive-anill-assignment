@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchWorkSpaces, selectWorkSpaces, selectLoading, selectError } from '../../redux/workSpaceSlice';
 import PlaceHolderSpaceCard from './PlaceHolderSpaceCard';
+import { WorkSpace } from '../../types/WorkSpace';
 
 const Spaces: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +46,7 @@ const Spaces: React.FC = () => {
         <Grid container spacing={4} sx={{ pt: 4 }}>
           {spaces.map((space) => (
             <Grid key={space.id} size={{ xs: 12, sm: 6, md: 4 }}>
-              <SpaceCard {...space} />
+              <SpaceCard {...(space as WorkSpace)} />  {/* Typecast to WorkSpace */}
             </Grid>
           ))}
         </Grid>
