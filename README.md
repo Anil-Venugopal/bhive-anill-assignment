@@ -1,50 +1,125 @@
-# React + TypeScript + Vite
+# 🚀 WorkSpace Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a **React + Vite** application that integrates **Redux Toolkit** for state management and fetches workspace data from a remote API.
 
-Currently, two official plugins are available:
+---
+## 📌 Features
+- **Vite** for fast development & optimized builds
+- **Redux Toolkit** for efficient state management
+- **Axios** for API calls
+- **Material-UI** for UI components
+- **TypeScript** for type safety
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+---
+## 📦 Project Structure
+```
+/src
+│── api/                   # API service calls
+│   ├── api.ts             # Handles API calls with Axios
+│
+│── redux/                 # Redux state management
+│   ├── store.ts           # Configures the Redux store
+│   ├──                    # Redux slices (state + reducers)
+       ├── workspaceSlice.ts # Handles workspace state
+│
+│── components/            # React components
+│   ├── spaces/            # Spaces-related components
+│       ├── Spaces.tsx     # Renders list of workspaces
+│       ├── SpaceCard.tsx  # Displays individual workspace details
+│
+│── types/                 # TypeScript interfaces
+│   ├── WorkSpace.ts       # Defines WorkSpace type
+│
+│── .env                   # Environment variables
+│── vite.config.ts         # Vite configuration
+│── package.json           # Dependencies and scripts
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
+## ⚙️ Setup & Installation
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+### 1️⃣ **Clone the Repository**
+```sh
+git clone <repository-url>
+cd workspace-app
 ```
+
+### 2️⃣ **Install Dependencies**
+```sh
+npm install
+```
+
+### 3️⃣ **Setup Environment Variables**
+Create a `.env` file in the root directory and add:
+```env
+VITE_API_BASE_URL=https://raw.githubusercontent.com/MujtabaKably/bhive-interview-project-data/main/
+```
+
+### 4️⃣ **Run the Development Server**
+```sh
+npm run dev
+```
+Vite will start the app at `http://localhost:5173`.
+
+---
+## 🔗 API Integration
+All API calls are handled in `src/api/api.ts`.
+
+### **Fetching Workspaces**
+```typescript
+import axios from 'axios';
+import { WorkSpace } from '../types/WorkSpace';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+export const fetchWorkSpacesAPI = async (): Promise<WorkSpace[]> => {
+  try {
+    const { data } = await axios.get<WorkSpace[]>(`${API_BASE_URL}data.json`);
+    return data;
+  } catch (error) {
+    throw new Error('Failed to fetch workspaces');
+  }
+};
+```
+
+---
+## 🏪 State Management with Redux
+We use **Redux Toolkit** for state management.
+
+### **Configure Store** (`store.ts`)
+```typescript
+import { configureStore } from '@reduxjs/toolkit';
+import workspaceReducer from './workspaceSlice';
+
+export const store = configureStore({
+  reducer: { workspace: workspaceReducer },
+});
+```
+
+### **Fetch Workspaces via Redux** (`workspaceSlice.ts`)
+```typescript
+export const fetchWorkSpaces = createAsyncThunk('workspace/fetchWorkSpaces', async () => {
+  return await fetchWorkSpacesAPI();
+});
+```
+
+---
+## 🏗️ Building the Project
+To generate a production build:
+```sh
+npm run build
+```
+This will create an optimized `dist/` folder.
+
+---
+## 🐞 Debugging & Fixing Issues
+- If you face **missing fields in API response**, check logs in the browser console (`F12 > Console`).
+- If `npm run build` fails due to **TypeScript errors**, ensure `fetchWorkSpacesAPI()` returns all required fields.
+- Restart Vite after `.env` changes:
+  ```sh
+  npm run dev
+  ```
+
+---
+
+
