@@ -5,7 +5,7 @@ import { IntlProvider } from 'react-intl';
 import theme from './styles/theme';
 import messages from './constants/messages';
 import HomePage from './pages/HomePage';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import Footer from './components/layout/Footer';
 
 const App: React.FC = () => (
